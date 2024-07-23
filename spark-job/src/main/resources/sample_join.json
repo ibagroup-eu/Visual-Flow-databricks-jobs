@@ -1,0 +1,67 @@
+{
+  "nodes": [
+    {
+      "id": "left-table",
+      "value": {
+        "operation": "READ",
+        "storage": "s3",
+        "endpoint": "",
+        "ssl": "false",
+        "accessKey": "",
+        "secretKey": "",
+        "bucket": "",
+        "path": "left_df.avro",
+        "format": "avro",
+        "anonymousAccess": "false"
+      }
+    },
+    {
+      "id": "right-table",
+      "value": {
+        "operation": "READ",
+        "storage": "s3",
+        "endpoint": "",
+        "ssl": "false",
+        "accessKey": "",
+        "secretKey": "",
+        "bucket": "",
+        "path": "right_df.avro",
+        "format": "avro",
+        "anonymousAccess": "false"
+      }
+    },
+    {
+      "id": "join-data",
+      "value": {
+        "operation": "JOIN",
+        "joinType": "left",
+        "leftDataset": "left-table",
+        "rightDataset": "right-table",
+        "leftColumns": "emp_dept_id",
+        "rightColumns": "dept_id",
+        "selectedLeftColumns": "emp_id,name"
+      }
+    },
+    {
+      "id": "print",
+      "value": {
+        "operation": "WRITE",
+        "storage": "STDOUT"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "left-table",
+      "target": "join-data"
+    },
+    {
+      "source": "right-table",
+      "target": "join-data"
+    },
+    {
+      "source": "join-data",
+      "target": "print"
+    }
+  ]
+}
